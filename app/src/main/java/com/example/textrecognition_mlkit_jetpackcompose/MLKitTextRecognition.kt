@@ -38,24 +38,24 @@ fun MLKitTextRecognition() {
     val lifecycleOwner = LocalLifecycleOwner.current
     val extractedText = remember { mutableStateOf("") }
 
-
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         TextRecognitionView(
             context = context,
             lifecycleOwner = lifecycleOwner,
             extractedText = extractedText
         )
-
         Text(
             text = extractedText.value,
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(16.dp)
+                .padding(16.dp),
+            color = Color.Black
         )
     }
 }
-
 
 @Composable
 fun TextRecognitionView(
@@ -70,11 +70,11 @@ fun TextRecognitionView(
     val textRecognizer = remember { TextRecognition.getClient() }
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
 
-
     Box {
-        AndroidView(modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.7f),
+        AndroidView(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f),
             factory = { ctx ->
                 val previewView = PreviewView(ctx)
                 cameraProviderFuture.addListener({
@@ -87,7 +87,6 @@ fun TextRecognitionView(
                                 ObjectDetectorImageAnalyzer(textRecognizer, extractedText)
                             )
                         }
-
                     val cameraSelector = CameraSelector.Builder()
                         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build()
@@ -111,13 +110,11 @@ fun TextRecognitionView(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(15.dp)
-                .align(
-                    Alignment.TopStart
-                )
+                .align(Alignment.TopStart)
         ) {
-            IconButton(onClick = {
-                Toast.makeText(context, "Back Clicked", Toast.LENGTH_LONG).show()
-            }) {
+            IconButton(
+                onClick = { Toast.makeText(context, "Back Clicked", Toast.LENGTH_SHORT).show() }
+            ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "back",
@@ -127,7 +124,6 @@ fun TextRecognitionView(
         }
     }
 }
-
 
 class ObjectDetectorImageAnalyzer(
     private val textRecognizer: TextRecognizer,
@@ -148,11 +144,7 @@ class ObjectDetectorImageAnalyzer(
                 }
         }
     }
-
 }
-
-
-
 
 
 
